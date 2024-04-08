@@ -1,25 +1,36 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import CurrencyConverter from './CurrencyConverter';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [currencies, setCurrencies] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://openexchangerates.org/api/currencies.json'); // Adjust the path if needed
+                const data = await response.json();
+                setCurrencies(Object.keys(data));
+            } catch (error) {
+                console.error('Error fetching currencies:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    return (
+        <div className="App">
+            <header className="App-header">
+                <h1>Currency Converter</h1>
+                {currencies.length > 0 ? (
+                    <CurrencyConverter currencies={currencies} />
+                ) : (
+                    <p>Loading currencies...</p>
+                )}
+            </header>
+        </div>
+    );
 }
 
 export default App;
