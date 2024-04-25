@@ -43,7 +43,7 @@ const CurrencyConverter = ({ currencies }) => {
                 ))}
             </select>
 
-            <button onClick={handleConvert}>Convert</button>
+            <button onClick={handleConvert} id="convert">Convert</button>
 
             {convertedAmount && (
                 <div>
